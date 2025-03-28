@@ -1,10 +1,9 @@
 import React from "react";
-import { StrictMode } from 'react';
 import "./index.css";
 import App from "./App";
 // import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider } from "@chakra-ui/react";
-// import ChatProvider from "./Context/ChatProvider";
+import ChatProvider from "./Context/ChatProvider";
 import { BrowserRouter } from "react-router-dom";
 import { createRoot } from 'react-dom/client';
 
@@ -12,13 +11,13 @@ const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 
 root.render(
-  <React.StrictMode>
+  <ChatProvider>
     <BrowserRouter>
       <ChakraProvider>
         <App />
       </ChakraProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  </ChatProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
