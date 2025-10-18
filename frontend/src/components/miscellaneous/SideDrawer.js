@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, Input, Menu, MenuButton, MenuItem, MenuList, Text, Tooltip, useDisclosure, useToast } from '@chakra-ui/react'
+import { Avatar, Box, Button, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, Input, Menu, MenuButton, MenuItem, MenuList, Spinner, Text, Tooltip, useDisclosure, useToast } from '@chakra-ui/react'
 import { BellIcon, ChevronDownIcon } from '@chakra-ui/icons'
 import React, { useState } from 'react'
 import FontAwesomeIcon from 'react-fontawesome'
@@ -73,9 +73,11 @@ const SideDrawer = () => {
             };
 
             const { data } = await axios.post("/api/chat", { userId }, config)
+            if(!chats.find((c)=>c._id === data._id)) setChats([data, ...chats]);
+            
             setSelectedChat(data)
             setLoadingChat(false)
-            onClose()
+            onClose();
         } catch (error) {
             toast({
                 title: "Error fetching the chat",
@@ -100,7 +102,7 @@ const SideDrawer = () => {
             >
                 <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
                     <Button variant="ghost" onClick={onOpen}>
-                        <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" style={{ color: "#f4d3b8", }} name="search" />
+                        <FontAwesomeIcon icon="fa-solid fa-magnifying-glass" style={{ color: "#c3783bff", }} name="search" />
                         <Text display={{ base: "none", md: "flex" }} px={4}>
                             Search User
                         </Text>
@@ -166,6 +168,7 @@ const SideDrawer = () => {
                                 />
                             ))
                         )}
+                        {loadingChat && <Spinner ml="auto" d="flex"/>}
                     </DrawerBody>
                 </DrawerContent>
             </Drawer>
