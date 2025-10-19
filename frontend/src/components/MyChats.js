@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { ChatState } from '../Context/ChatProvider';
 // import { set } from 'mongoose';
 // import {  } from "@chakra-ui/layout";
-import { useToast, Button, Box, Stack, Text } from '@chakra-ui/react';
+import { useToast, Button, Box, Stack, Text} from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 import ChatLoading from './ChatLoading';
 import { getSender } from '../config/ChatLogics';
+import GroupChatModal from './miscellaneous/GroupChatModal';
 
-const MyChats = () => {
+const MyChats = ({ fetchAgain }) => {
     const [loggedUser, setLoggedUser] = useState();
     const { user, chats, setChats, selectedChat, setSelectedChat } = ChatState();
     const toast = useToast();
@@ -40,13 +41,11 @@ const MyChats = () => {
     useEffect(() => {
         setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
         fetchChats();
-    
-      
-    }, [])
-    
+    }, [fetchAgain])
+
     return (
         <Box
-            d={{ base: selectedChat ? "none" : "flex", md: "flex" }}
+            display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
             flexDir="column"
             alignItems="center"
             p={3}
@@ -61,22 +60,24 @@ const MyChats = () => {
                 px={3}
                 fontSize={{ base: "28px", md: "30px" }}
                 fontFamily="Work sans"
-                d="flex"
+                display="flex"
                 w="100%"
                 justifyContent="space-between"
                 alignItems="center"
             >
                 My Chats
-                <Button
-                    d="flex"
-                    fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-                    rightIcon={<AddIcon />}
-                >
-                    New Group Chat
-                </Button>    
+                <GroupChatModal>
+                    <Button
+                        display="flex"
+                        fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+                        rightIcon={<AddIcon />}
+                    >
+                        New Group Chat
+                    </Button>
+                </GroupChatModal>
             </Box>
             <Box
-                d="flex"
+                display="flex"
                 flexDir="column"
                 p={3}
                 bg="#F8F8F8"
@@ -87,13 +88,13 @@ const MyChats = () => {
                 borderRadius="lg"
                 overflowY="auto"
             >
-                {chats?(
+                {chats ? (
                     <Stack overflowY="scroll">
                         {chats.map((chat) => (
                             <Box
                                 onClick={() => setSelectedChat(chat)}
                                 cursor="pointer"
-                                bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
+                                bg={selectedChat === chat ? "#d88f21ff" : "#E8E8E8"}
                                 color={selectedChat === chat ? "white" : "black"}
                                 px={3}
                                 py={2}
@@ -116,8 +117,8 @@ const MyChats = () => {
                             </Box>
                         ))}
                     </Stack>
-                ):(
-                    <ChatLoading/>
+                ) : (
+                    <ChatLoading />
                 )}
             </Box>
         </Box>

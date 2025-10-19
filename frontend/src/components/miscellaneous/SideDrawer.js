@@ -5,10 +5,10 @@ import FontAwesomeIcon from 'react-fontawesome'
 import { ChatState } from '../../Context/ChatProvider'
 import ProfileModal from './ProfileModal'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
-import { set } from 'mongoose'
+// import { set } from 'mongoose'
 import axios from 'axios'
 import ChatLoading from '../ChatLoading'
-import UserListItem from '../UserAvatar/UserListItem'
+import UserListItem from '../userAvatar/UserListItem'
 
 const SideDrawer = () => {
     const [search, setSearch] = useState("")
