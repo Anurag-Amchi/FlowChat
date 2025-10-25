@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler')
 const Chat = require('../models/chatModel');
-const user = require('../models/userModel');
+const User = require('../models/userModel');
 
 const accessChat = asyncHandler(async (req, res) => {
     const { userId } = req.body;
@@ -20,7 +20,7 @@ const accessChat = asyncHandler(async (req, res) => {
         .populate('users', '-password')
         .populate('latestMessage');
 
-    isChat = await user.populate(isChat, {
+    isChat = await User.populate(isChat, {
         path: 'latestMessage.sender',
         select: 'name pic email'
     });
@@ -60,7 +60,7 @@ const fetchChats = asyncHandler(async (req, res) => {
             .populate('latestMessage')
             .sort({ updatedAt: -1 })
             .then(async (results) => {
-                results = await user.populate(results, {
+                results = await User.populate(results, {
                     path: 'latestMessage.sender',
                     select: 'name pic email',
                 });
